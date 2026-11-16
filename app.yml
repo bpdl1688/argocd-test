@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: echo-server-dev
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/bpdl1688/argocd-test.git
+    targetRevision: main
+    path: overlays/dev
+    kustomize:
+      forceCommonLabels: false
+      nameSuffix: "-dev"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
